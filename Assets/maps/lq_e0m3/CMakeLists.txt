@@ -1,0 +1,78 @@
+qt6_add_library(kwayk_assets_maps_lq_e0m3 STATIC)
+
+qt6_add_qml_module(kwayk_assets_maps_lq_e0m3
+    URI "Assets.maps.lq_e0m3"
+    VERSION 1.0
+    RESOURCE_PREFIX "/"
+    QML_FILES
+        Lq_e0m3_map.qml
+        Lq_e0m3_map_hull0.qml
+    RESOURCES
+        maps/*tele3.png
+        maps/*water0.png
+        maps/*waterskip.png
+        maps/+0explob_s1.png
+        maps/+0explob_s1_glow.png
+        maps/+0water_f1.png
+        maps/+1explob_s1.png
+        maps/+1explob_s1_glow.png
+        maps/+1water_f1.png
+        maps/+2explob_s1.png
+        maps/+2explob_s1_glow.png
+        maps/+2water_f1.png
+        maps/+3explob_s1.png
+        maps/+3explob_s1_glow.png
+        maps/+3water_f1.png
+        maps/clip.png
+        maps/crate4.png
+        maps/flat_01_a.png
+        maps/flat_05_h.png
+        maps/gravel1.png
+        maps/gravel2.png
+        maps/lightmap.png
+        maps/may_blok1_2.png
+        maps/med_bigdirt3.png
+        maps/med_cobstn1_2.png
+        maps/med_csl_brk14b.png
+        maps/med_csl_brk8_1c.png
+        maps/med_csl_flr4_1.png
+        maps/med_dbrick6b.png
+        maps/med_dr2a.png
+        maps/med_flat5a.png
+        maps/med_met_key2a.png
+        maps/med_rmet.png
+        maps/med_rock10b.png
+        maps/med_roof3.png
+        maps/med_wood2.png
+        maps/plank3.png
+        maps/plank4.png
+        maps/radio32.png
+        maps/radiowood.png
+        maps/skip.png
+        maps/sky5_blu.png
+        maps/sky5_blu_back.png
+        maps/sky5_blu_front.png
+        maps/sq_trim1_2_s.png
+        maps/trigger.png
+        meshes/sky_mesh.mesh
+        meshes/solid_0_hull0_mesh.mesh
+        meshes/solid_0_mesh.mesh
+        meshes/solid_10_mesh.mesh
+        meshes/solid_11_mesh.mesh
+        meshes/solid_12_mesh.mesh
+        meshes/solid_13_mesh.mesh
+        meshes/solid_14_mesh.mesh
+        meshes/solid_15_mesh.mesh
+        meshes/solid_1_mesh.mesh
+        meshes/solid_2_mesh.mesh
+        meshes/solid_3_mesh.mesh
+        meshes/solid_4_mesh.mesh
+        meshes/solid_5_mesh.mesh
+        meshes/solid_6_mesh.mesh
+        meshes/solid_7_mesh.mesh
+        meshes/solid_8_mesh.mesh
+        meshes/solid_9_mesh.mesh
+        meshes/water_hull0_mesh.mesh
+        meshes/water_mesh.mesh
+)
+
