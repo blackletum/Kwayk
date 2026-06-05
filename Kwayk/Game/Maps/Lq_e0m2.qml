@@ -874,6 +874,104 @@ World {
         position: Qt.vector3d(24.72, -2.32, 4.4)
     }
 
+    // patrol paths
+
+    PathCorner {
+        targetname: "p1.1"
+        target: "p1.2"
+        position: Qt.vector3d(0.64, 0.32, 0.16)
+    }
+
+    PathCorner {
+        targetname: "p1.2"
+        target: "p1.3"
+        position: Qt.vector3d(0.64, 0.32, -2)
+    }
+
+    PathCorner {
+        targetname: "p1.3"
+        target: "p1.4"
+        position: Qt.vector3d(-4.88, 0.32, -2)
+    }
+
+    PathCorner {
+        targetname: "p1.4"
+        target: "p1.1"
+        position: Qt.vector3d(-4.96, 0.32, 0.08)
+    }
+
+    PathCorner {
+        targetname: "p2.1"
+        target: "p2.2"
+        position: Qt.vector3d(-14, 0.72, 29.68)
+    }
+
+    PathCorner {
+        targetname: "p2.2"
+        target: "p2.3"
+        position: Qt.vector3d(-14, 0.16, 23.28)
+    }
+
+    PathCorner {
+        targetname: "p2.3"
+        target: "p2.4"
+        position: Qt.vector3d(-14.96, 0.4, 20.72)
+    }
+
+    PathCorner {
+        targetname: "p2.4"
+        target: "p2.5"
+        position: Qt.vector3d(-9.04, 1.36, 20.24)
+    }
+
+    PathCorner {
+        targetname: "p2.5"
+        target: "p2.6"
+        position: Qt.vector3d(-6.96, 1.36, 20.24)
+    }
+
+    PathCorner {
+        targetname: "p2.6"
+        target: "p2.7"
+        position: Qt.vector3d(-6.8, 1.04, 23.44)
+    }
+
+    PathCorner {
+        targetname: "p2.7"
+        target: "p2.8"
+        position: Qt.vector3d(-3.6, 0.72, 22.96)
+    }
+
+    PathCorner {
+        targetname: "p2.8"
+        target: "p2.7"
+        position: Qt.vector3d(-3.76, 0.72, 19.44)
+    }
+
+    PathCorner {
+        targetname: "p3.1"
+        target: "p3.2"
+        position: Qt.vector3d(-0.72, 0.72, 7.44)
+    }
+
+    PathCorner {
+        targetname: "p3.2"
+        target: "p3.3"
+        position: Qt.vector3d(-0.4, 0.72, 10.16)
+    }
+
+    PathCorner {
+        targetname: "p3.3"
+        target: "p3.4"
+        position: Qt.vector3d(2, 0.72, 10.32)
+    }
+
+    PathCorner {
+        targetname: "p3.4"
+        target: "p3.1"
+        position: Qt.vector3d(-0.72, 0.72, 10.64)
+    }
+
     Button {
         eulerRotation: Qt.vector3d(0, -90, 0)
         body: map.model_66
@@ -1927,15 +2025,17 @@ World {
     }
 
     Ogre {
-        position: Qt.vector3d(-23.18, 6.0, -39.52)
-        targetname: "goldkeydoor"
+        position: Qt.vector3d(-23.18, 6, -39.52)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
+        targetname: "goldkeydoor"
     }
 
     Ogre {
-        position: Qt.vector3d(-22.24, 6.0, -39.52)
-        targetname: "goldkeydoor"
+        position: Qt.vector3d(-22.24, 6, -39.52)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
+        targetname: "goldkeydoor"
     }
 
     Ogre {
@@ -1949,15 +2049,18 @@ World {
     }
 
     Wizard {
-        position: Qt.vector3d(-23.6, 5.84, -38.0)
+        position: Qt.vector3d(-23.6, 5.84, -38)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Wizard {
-        position: Qt.vector3d(-23.04, 5.84, -38.0)
+        position: Qt.vector3d(-23.04, 5.84, -38)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Wizard {
-        position: Qt.vector3d(-22.48, 5.84, -38.0)
+        position: Qt.vector3d(-22.48, 5.84, -38)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Ogre {
@@ -2020,16 +2123,18 @@ World {
 
     Knight {
         position: Qt.vector3d(0.56, 0.24, 0.88)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         target: "p1.1"
     }
 
     Knight {
         position: Qt.vector3d(-3.68, 0.24, 0.16)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         target: "p1.1"
     }
 
     Ogre {
-        position: Qt.vector3d(-3.04, 0.88, -4.0)
+        position: Qt.vector3d(-3.04, 0.88, -4)
         eulerRotation: Qt.vector3d(0, 225, 0)
     }
 
@@ -2092,7 +2197,7 @@ World {
     }
 
     Wizard {
-        position: Qt.vector3d(1.2, -0.0, -19.2)
+        position: Qt.vector3d(1.2, 0, -19.2)
         eulerRotation: Qt.vector3d(0, 90, 0)
         spawnflags: 1
     }
@@ -2104,11 +2209,13 @@ World {
     }
 
     Ogre {
-        position: Qt.vector3d(-0.72, 0.88, -8.0)
+        position: Qt.vector3d(-0.72, 0.88, -8)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Knight {
         position: Qt.vector3d(4.32, -1.36, -27.44)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Knight {
@@ -2128,51 +2235,61 @@ World {
 
     Knight {
         position: Qt.vector3d(-3.68, 0.24, -2.16)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         target: "p1.3"
     }
 
     Wizard {
         position: Qt.vector3d(-19.76, 5.84, -36.8)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
     Wizard {
         position: Qt.vector3d(-19.76, 5.84, -37.44)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
     Ogre {
         position: Qt.vector3d(-20.56, 5.76, -36.96)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
     Ogre {
         position: Qt.vector3d(-21.44, 5.76, -36.96)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
     HellKnight {
         position: Qt.vector3d(-22.4, 5.76, -36.96)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
     HellKnight {
         position: Qt.vector3d(-23.36, 5.76, -36.96)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
     HellKnight {
-        position: Qt.vector3d(-22.56, 5.76, -36.0)
+        position: Qt.vector3d(-22.56, 5.76, -36)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
     HellKnight {
-        position: Qt.vector3d(-21.68, 5.76, -36.0)
+        position: Qt.vector3d(-21.68, 5.76, -36)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
     Ogre {
         position: Qt.vector3d(-23.36, 5.76, -35.92)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
@@ -2189,13 +2306,13 @@ World {
     }
 
     HellKnight {
-        position: Qt.vector3d(20.0, -1.68, 6.72)
+        position: Qt.vector3d(20, -1.68, 6.72)
         eulerRotation: Qt.vector3d(0, 15, 0)
         spawnflags: 1
     }
 
     Demon {
-        position: Qt.vector3d(22.0, -1.12, 3.2)
+        position: Qt.vector3d(22, -1.12, 3.2)
         eulerRotation: Qt.vector3d(0, 90, 0)
         spawnflags: 1536
     }
@@ -2217,44 +2334,53 @@ World {
 
     Knight {
         position: Qt.vector3d(4.4, 0.24, 5.28)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Knight {
         position: Qt.vector3d(4.4, 0.24, 5.68)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Knight {
         position: Qt.vector3d(4.4, 0.24, 1.28)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Knight {
         position: Qt.vector3d(3.84, 0.24, 0.88)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Knight {
         position: Qt.vector3d(3.68, 0.24, 5.28)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Knight {
         position: Qt.vector3d(4.48, 0.24, 0.88)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     HellKnight {
         position: Qt.vector3d(-1.68, -2.8, -27.28)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     HellKnight {
-        position: Qt.vector3d(1.04, -1.36, -34.0)
+        position: Qt.vector3d(1.04, -1.36, -34)
         eulerRotation: Qt.vector3d(0, 210, 0)
     }
 
     Ogre {
         position: Qt.vector3d(-20.56, 5.76, -37.84)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
     Ogre {
         position: Qt.vector3d(-0.4, 2.88, 20.16)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
@@ -2296,21 +2422,23 @@ World {
 
     Knight {
         position: Qt.vector3d(-20.48, 2.18, 29.6)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         target: "p2.1"
     }
 
     Ogre {
-        position: Qt.vector3d(-4.0, 2.24, 18.32)
+        position: Qt.vector3d(-4, 2.24, 18.32)
         eulerRotation: Qt.vector3d(0, 195, 0)
     }
 
     Ogre {
         position: Qt.vector3d(-0.8, 0.88, 9.76)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         target: "p3.1"
     }
 
     Shambler {
-        position: Qt.vector3d(22.0, -0.12, 3.2)
+        position: Qt.vector3d(22, -0.12, 3.2)
         eulerRotation: Qt.vector3d(0, 105, 0)
         spawnflags: 256
     }
@@ -2340,7 +2468,7 @@ World {
     }
 
     Knight {
-        position: Qt.vector3d(-16.0, -2.16, -0.48)
+        position: Qt.vector3d(-16, -2.16, -0.48)
         eulerRotation: Qt.vector3d(0, 165, 0)
     }
 

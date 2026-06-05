@@ -26,7 +26,7 @@ Entity {
 
         Body {
             shape: BoxShape {
-                extents: Qt.vector3d(0.05, 0.05, 0.05)
+                extents: Qt.vector3d(0.1, 0.1, 0.1)
             }
 
             objectLayer: Layers.Toss
@@ -35,6 +35,8 @@ Entity {
 
             restitution: 0.6
             friction: 0.8
+
+            allowSleeping: false
 
             onBodyContact: (body, baseOffset, contactPoints, worldSpaceNormal, penetrationDepth) => {
                 if (contactPoints.length) {

@@ -27,6 +27,7 @@ Item {
 
     Mdl { source: "qrc:/Assets/progs/eyes.mdl" }
     Mdl { source: "qrc:/Assets/progs/h_player.mdl" }
+    Mdl { source: "qrc:/Assets/progs/player.mdl" }
     Mdl { source: "qrc:/Assets/progs/gib1.mdl" }
     Mdl { source: "qrc:/Assets/progs/gib2.mdl" }
     Mdl { source: "qrc:/Assets/progs/gib3.mdl" }

@@ -441,88 +441,93 @@ World {
 
     Soldier {
         position: Qt.vector3d(-6.08, 0.24, -1.44)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Soldier {
         position: Qt.vector3d(-7.52, 0.24, 1.12)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Soldier {
-        position: Qt.vector3d(-4.8, -1.2, 4.00)
+        position: Qt.vector3d(-4.8, -1.2, 4)
         eulerRotation: Qt.vector3d(0, 15, 0)
         spawnflags: 257
     }
 
     Soldier {
-        position: Qt.vector3d(6.4, -2.48, -0.00)
+        position: Qt.vector3d(6.4, -2.48, 0)
         eulerRotation: Qt.vector3d(0, 75, 0)
         spawnflags: 1
     }
 
     Soldier {
-        position: Qt.vector3d(-5.6, 2.00, 4.32)
+        position: Qt.vector3d(-5.6, 2, 4.32)
         eulerRotation: Qt.vector3d(0, 135, 0)
     }
 
     Soldier {
-        position: Qt.vector3d(-6.24, 2.00, 3.84)
+        position: Qt.vector3d(-6.24, 2, 3.84)
         eulerRotation: Qt.vector3d(0, 135, 0)
     }
 
     Dog {
-        position: Qt.vector3d(-6.24, 2.00, 7.2)
+        position: Qt.vector3d(-6.24, 2, 7.2)
         eulerRotation: Qt.vector3d(0, 180, 0)
         spawnflags: 1
     }
 
     Soldier {
-        position: Qt.vector3d(-10.24, 2.00, 8.64)
+        position: Qt.vector3d(-10.24, 2, 8.64)
         eulerRotation: Qt.vector3d(0, 75, 0)
         spawnflags: 1
     }
 
     Soldier {
-        position: Qt.vector3d(-2.72, 2.00, -0.48)
+        position: Qt.vector3d(-2.72, 2, -0.48)
         eulerRotation: Qt.vector3d(0, 90, 0)
         spawnflags: 1
     }
 
     Enforcer {
-        position: Qt.vector3d(-2.72, 2.00, 0.48)
+        position: Qt.vector3d(-2.72, 2, 0.48)
         eulerRotation: Qt.vector3d(0, 90, 0)
         spawnflags: 257
     }
 
     Enforcer {
-        position: Qt.vector3d(-2.24, 2.00, -4.00)
+        position: Qt.vector3d(-2.24, 2, -4)
         eulerRotation: Qt.vector3d(0, 180, 0)
         spawnflags: 1
     }
 
     Enforcer {
-        position: Qt.vector3d(-1.6, 2.00, -3.52)
+        position: Qt.vector3d(-1.6, 2, -3.52)
         eulerRotation: Qt.vector3d(0, 180, 0)
         spawnflags: 1
     }
 
     Enforcer {
-        position: Qt.vector3d(-1.92, 2.00, -2.4)
+        position: Qt.vector3d(-1.92, 2, -2.4)
         eulerRotation: Qt.vector3d(0, 180, 0)
         spawnflags: 257
     }
 
     Dog {
         position: Qt.vector3d(-12.32, 1.36, -7.2)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
     Dog {
         position: Qt.vector3d(-11.52, 1.36, -6.4)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
     Enforcer {
         position: Qt.vector3d(-13.76, 2.16, -6.4)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
@@ -539,7 +544,8 @@ World {
     }
 
     Dog {
-        position: Qt.vector3d(-11.04, 0.24, -0.00)
+        position: Qt.vector3d(-11.04, 0.24, 0)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
@@ -551,6 +557,7 @@ World {
 
     Soldier {
         position: Qt.vector3d(-12.16, 0.24, -0.32)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 257
     }
 
@@ -562,6 +569,7 @@ World {
 
     Soldier {
         position: Qt.vector3d(-12.16, 0.24, 0.32)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
@@ -579,6 +587,7 @@ World {
 
     Dog {
         position: Qt.vector3d(-5.12, -1.2, -0.32)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Soldier {
@@ -589,18 +598,22 @@ World {
 
     Enforcer {
         position: Qt.vector3d(-11.84, -9.28, 16.32)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Soldier {
         position: Qt.vector3d(-10.56, -9.28, 16.32)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Soldier {
         position: Qt.vector3d(-9.28, -9.28, 16.32)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Dog {
         position: Qt.vector3d(-6.24, -1.2, 0.32)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 257
     }
 
@@ -634,7 +647,7 @@ World {
     }
 
     Dog {
-        position: Qt.vector3d(8.00, -0.08, -11.2)
+        position: Qt.vector3d(8, -0.08, -11.2)
         eulerRotation: Qt.vector3d(0, -60, 0)
         spawnflags: 1
     }
@@ -647,13 +660,16 @@ World {
 
     Soldier {
         position: Qt.vector3d(7.68, -0.08, -5.6)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
+        target: "path1_c1"
     }
 
     Soldier {
         position: Qt.vector3d(0.8, 0.24, -3.36)
         eulerRotation: Qt.vector3d(0, 0, 0)
         spawnflags: 1
+        target: "path2_c1"
     }
 
     Dog {
@@ -664,21 +680,24 @@ World {
 
     Enforcer {
         position: Qt.vector3d(1.6, -2.48, 7.36)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 257
     }
 
     Enforcer {
         position: Qt.vector3d(-14.08, 2.16, -7.68)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 256
     }
 
     Enforcer {
-        position: Qt.vector3d(1.6, 2.00, -5.76)
+        position: Qt.vector3d(1.6, 2, -5.76)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 257
     }
 
     Dog {
-        position: Qt.vector3d(-0.32, 2.00, -9.12)
+        position: Qt.vector3d(-0.32, 2, -9.12)
         eulerRotation: Qt.vector3d(0, 105, 0)
         spawnflags: 1
     }

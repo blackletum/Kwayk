@@ -354,6 +354,8 @@ Node {
     TurbulentMaterial {
         id: _tele3_material
         colorMap: images__tele3_png_texture
+        lightmapColorMap: maps_lightmap_png_texture
+        lightStyleColorMap: lightStyleTexture
     }
     BrushMaterial {
         id: trigger_8_material
@@ -540,6 +542,8 @@ Node {
     TurbulentMaterial {
         id: _water0_material
         colorMap: images__water0_png_texture
+        lightmapColorMap: maps_lightmap_png_texture
+        lightStyleColorMap: lightStyleTexture
     }
     SkyLayerMaterial {
         id: sky5_blu_material

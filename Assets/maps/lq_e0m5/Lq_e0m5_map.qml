@@ -561,10 +561,14 @@ Node {
     TurbulentMaterial {
         id: _tele1_material
         colorMap: images__tele1_png_texture
+        lightmapColorMap: maps_lightmap_png_texture
+        lightStyleColorMap: lightStyleTexture
     }
     TurbulentMaterial {
         id: _water2_material
         colorMap: images__water2_png_texture
+        lightmapColorMap: maps_lightmap_png_texture
+        lightStyleColorMap: lightStyleTexture
     }
     BrushMaterial {
         id: may_trm1_1_material

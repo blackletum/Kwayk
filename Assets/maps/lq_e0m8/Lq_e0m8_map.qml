@@ -1223,6 +1223,8 @@ Node {
     TurbulentMaterial {
         id: _tele3_material
         colorMap: images__tele3_png_texture
+        lightmapColorMap: maps_lightmap_png_texture
+        lightStyleColorMap: lightStyleTexture
     }
     BrushMaterial {
         id: may_blok1_2_1_material
@@ -1255,10 +1257,14 @@ Node {
     TurbulentMaterial {
         id: _water2_material
         colorMap: images__water2_png_texture
+        lightmapColorMap: maps_lightmap_png_texture
+        lightStyleColorMap: lightStyleTexture
     }
     TurbulentMaterial {
         id: _blood1_material
         colorMap: images__blood1_png_texture
+        lightmapColorMap: maps_lightmap_png_texture
+        lightStyleColorMap: lightStyleTexture
     }
     BrushMaterial {
         id: may_blok2_1_3_material
@@ -1270,6 +1276,8 @@ Node {
     TurbulentMaterial {
         id: _lava1_material
         colorMap: images__lava1_png_texture
+        lightmapColorMap: maps_lightmap_png_texture
+        lightStyleColorMap: lightStyleTexture
         emissiveIntensity: 5
         emissiveColor: "#ff2200"
     }

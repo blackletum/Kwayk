@@ -1122,12 +1122,13 @@ World {
     }
 
     Zombie {
-        position: Qt.vector3d(-21.75, 2.4, -0.0)
+        position: Qt.vector3d(-21.75, 2.4, 0)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
     Ogre {
-        position: Qt.vector3d(14.72, 8.88, -0.0)
+        position: Qt.vector3d(14.72, 8.88, 0)
         eulerRotation: Qt.vector3d(0, 90, 0)
         spawnflags: 257
     }
@@ -1155,10 +1156,12 @@ World {
 
     Fish {
         position: Qt.vector3d(-3.2, -2.8, -1.28)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Fish {
         position: Qt.vector3d(-3.84, -2.8, 2.24)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 256
     }
 
@@ -1169,26 +1172,30 @@ World {
 
     Fish {
         position: Qt.vector3d(4.8, -2.16, 9.12)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Fish {
         position: Qt.vector3d(4.8, -2.16, 6.08)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 256
     }
 
     Ogre {
-        position: Qt.vector3d(11.68, 0.72, 8.0)
+        position: Qt.vector3d(11.68, 0.72, 8)
         eulerRotation: Qt.vector3d(0, 90, 0)
         spawnflags: 1
     }
 
     Wizard {
         position: Qt.vector3d(-4.32, 3.28, 0.32)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 256
     }
 
     Wizard {
         position: Qt.vector3d(-4.32, 3.28, -1.12)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Zombie {
@@ -1244,6 +1251,7 @@ World {
 
     Ogre {
         position: Qt.vector3d(9.44, 1.52, -7.52)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
@@ -1253,7 +1261,7 @@ World {
     }
 
     HellKnight {
-        position: Qt.vector3d(-6.76, 1.52, 5.0)
+        position: Qt.vector3d(-6.76, 1.52, 5)
         eulerRotation: Qt.vector3d(0, 15, 0)
         spawnflags: 1
     }
@@ -1295,16 +1303,19 @@ World {
 
     Knight {
         position: Qt.vector3d(8.68, 2.84, 2.44)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
     Knight {
         position: Qt.vector3d(8.52, 2.84, 1.48)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
     Knight {
-        position: Qt.vector3d(8.52, 2.84, 2.0)
+        position: Qt.vector3d(8.52, 2.84, 2)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
@@ -1322,10 +1333,12 @@ World {
 
     Fish {
         position: Qt.vector3d(-8.92, -6.28, -0.08)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Fish {
         position: Qt.vector3d(-12.56, -2.72, 0.04)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
@@ -1391,10 +1404,12 @@ World {
 
     Zombie {
         position: Qt.vector3d(-17.44, 1.04, 0.48)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Zombie {
         position: Qt.vector3d(-16.96, 1.04, -0.64)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Ogre {

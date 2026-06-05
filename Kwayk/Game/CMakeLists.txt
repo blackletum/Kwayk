@@ -83,6 +83,7 @@ qt6_add_qml_module(kwayk_game
         Misc/Meat.qml
         Misc/Tfog.qml
         Misc/TrapSpikeShooter.qml
+        Misc/ViewThing.qml
         Misc/Wall.qml
         Monster.qml
         Monsters/Boss.qml

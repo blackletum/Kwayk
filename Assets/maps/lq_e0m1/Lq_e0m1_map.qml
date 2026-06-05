@@ -1098,6 +1098,8 @@ Node {
     TurbulentMaterial {
         id: _water0_material
         colorMap: images__water0_png_texture
+        lightmapColorMap: maps_lightmap_png_texture
+        lightStyleColorMap: lightStyleTexture
     }
     BrushMaterial {
         id: _1planet_a_material
@@ -1120,6 +1122,8 @@ Node {
     TurbulentMaterial {
         id: _slime2_material
         colorMap: images__slime2_png_texture
+        lightmapColorMap: maps_lightmap_png_texture
+        lightStyleColorMap: lightStyleTexture
     }
     BrushMaterial {
         id: w94_1_material

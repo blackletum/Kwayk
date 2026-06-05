@@ -126,6 +126,7 @@ public:
         qint16 extents[2];
         quint8 styles[4];
         quint8 *samples;
+        quint8 *litSamples;
         qint32 light_s;
         qint32 light_t;
         const TexInfo *texinfo;
@@ -260,11 +261,13 @@ private:
     void loadLeafs(QDataStream &stream, const Lump &lump);
     void loadNodes(QDataStream &stream, const Lump &lump);
     void loadClipNodes(QDataStream &stream, const Lump &lump);
+    void loadLitLighting(const QString &outputFile, qsizetype lightDataSize);
 
     void skyLoadTexture(const Texture &texture);
     void buildLightmaps();
     void allocBlock(int w, int h, int *x, int *y);
-    void buildLightMap(const Surface &surface, quint8 *data, int offset, int stride);
+    void buildMonoLightMap(const Surface &surface, quint8 *data, int stride);
+    void buildLitLightMap(const Surface &surface, quint8 *data, int stride);
     
     void createSurfaceLightmap(Surface &surface);
     void buildSurfaceDisplayList(const Surface &surface, Subset &subset);
@@ -290,12 +293,14 @@ private:
     QVector<Plane> m_planes;
     QVector<TexInfo> m_texInfos;
     QByteArray m_lightData;
+    QByteArray m_litLightData;
     QVector<SubModel> m_subModels;
     QVector<Leaf> m_leafs;
     QVector<Node> m_nodes;
     QVector<ClipNode> m_clipNodes[2];
     Hull m_hull0;
     QString m_entitiesString;
+    QString m_outputFilePath;
     QByteArray m_lightmaps;
     QVector<qint32> m_allocated;
 };

@@ -1006,11 +1006,13 @@ World {
 
     Knight {
         position: Qt.vector3d(0.16, 0.24, 2.4)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
     Knight {
         position: Qt.vector3d(0.48, 0.24, 1.76)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
@@ -1082,8 +1084,9 @@ World {
 
     Shambler {
         position: Qt.vector3d(5.76, 1.2, 35.2)
-        targetname: "tele_shambler"
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 256
+        targetname: "tele_shambler"
     }
 
     Knight {
@@ -1116,22 +1119,27 @@ World {
 
     HellKnight {
         position: Qt.vector3d(-9.92, 0.24, 8.88)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Knight {
         position: Qt.vector3d(-9.68, 0.24, 9.44)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Knight {
         position: Qt.vector3d(-9.68, 0.24, 7.44)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Ogre {
         position: Qt.vector3d(2.24, 0.24, 8.96)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Knight {
         position: Qt.vector3d(-9.68, 0.24, 9.84)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Knight {
@@ -1141,6 +1149,7 @@ World {
 
     HellKnight {
         position: Qt.vector3d(-16.16, -0.72, -3.76)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
@@ -1204,13 +1213,13 @@ World {
     }
 
     Wizard {
-        position: Qt.vector3d(6.56, 2.0, 22.08)
+        position: Qt.vector3d(6.56, 2, 22.08)
         eulerRotation: Qt.vector3d(0, 90, 0)
         spawnflags: 257
     }
 
     Wizard {
-        position: Qt.vector3d(6.56, 2.0, 18.88)
+        position: Qt.vector3d(6.56, 2, 18.88)
         eulerRotation: Qt.vector3d(0, 90, 0)
         spawnflags: 1
     }
@@ -1228,16 +1237,19 @@ World {
 
     Knight {
         position: Qt.vector3d(0.8, 0.24, 2.72)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
     Knight {
         position: Qt.vector3d(1.44, 0.24, 2.48)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 0
     }
 
     Knight {
         position: Qt.vector3d(1.44, 0.24, 1.92)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 0
     }
 
@@ -1249,6 +1261,7 @@ World {
 
     Knight {
         position: Qt.vector3d(11.04, 4.72, 7.52)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 256
     }
 
@@ -1288,25 +1301,27 @@ World {
     }
 
     Knight {
-        position: Qt.vector3d(-8.0, -0.4, 14.88)
+        position: Qt.vector3d(-8, -0.4, 14.88)
         eulerRotation: Qt.vector3d(0, 0, 0)
         spawnflags: 1
     }
 
     Zombie {
-        position: Qt.vector3d(-6.96, -1.64, 5.0)
+        position: Qt.vector3d(-6.96, -1.64, 5)
         eulerRotation: Qt.vector3d(0, -45, 0)
     }
 
     HellKnight {
         position: Qt.vector3d(-9.92, 0.24, 8.4)
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 768
     }
 
     Dog {
         position: Qt.vector3d(5.76, 2.16, 35.2)
-        targetname: "tele_shambler"
+        eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1536
+        targetname: "tele_shambler"
     }
 
 }

@@ -1095,6 +1095,8 @@ Node {
     TurbulentMaterial {
         id: _blood1_material
         colorMap: images__blood1_png_texture
+        lightmapColorMap: maps_lightmap_png_texture
+        lightStyleColorMap: lightStyleTexture
     }
     BrushMaterial {
         id: trigger_3_material
@@ -1155,6 +1157,8 @@ Node {
     TurbulentMaterial {
         id: _slime_soul_material
         colorMap: images__slime_soul_png_texture
+        lightmapColorMap: maps_lightmap_png_texture
+        lightStyleColorMap: lightStyleTexture
     }
     BrushMaterial {
         id: w94_1_material

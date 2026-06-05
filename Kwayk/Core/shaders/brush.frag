@@ -5,11 +5,9 @@ void MAIN()
     vec4 baseColor1 = texture(colorTex1, UV1);
     vec4 baseColor2 = texture(colorTex2, UV1);
 
-    float blocklight = 1.0;
+    vec3 blocklight = vec3(1.0);
 
     if (useLightmap) {
-        vec4 lightmapColor = texture(lightmapColorTex, UV0);
-
         vec4 style0 = texture(lightStyleColorTex, vec2(lightStyle.r * 255.0 / 64.0 + 1.0 / 128.0, 0.0));
         vec4 style1 = texture(lightStyleColorTex, vec2(lightStyle.g * 255.0 / 64.0 + 1.0 / 128.0, 0.0));
         vec4 style2 = texture(lightStyleColorTex, vec2(lightStyle.b * 255.0 / 64.0 + 1.0 / 128.0, 0.0));
@@ -20,7 +18,12 @@ void MAIN()
         float scale2 = style2.r * 255.0 + style2.g * 255.0 * 256.0;
         float scale3 = style3.r * 255.0 + style3.g * 255.0 * 256.0;
 
-        blocklight = (lightmapColor.r * scale0 + lightmapColor.g * scale1 + lightmapColor.b * scale2 + lightmapColor.a * scale3);
+        vec3 lightmap0 = texture(lightmapColorTex, vec2(UV0.x * 0.25, UV0.y)).rgb;
+        vec3 lightmap1 = texture(lightmapColorTex, vec2((UV0.x + 1.0) * 0.25, UV0.y)).rgb;
+        vec3 lightmap2 = texture(lightmapColorTex, vec2((UV0.x + 2.0) * 0.25, UV0.y)).rgb;
+        vec3 lightmap3 = texture(lightmapColorTex, vec2((UV0.x + 3.0) * 0.25, UV0.y)).rgb;
+
+        blocklight = lightmap0 * scale0 + lightmap1 * scale1 + lightmap2 * scale2 + lightmap3 * scale3;
         blocklight /= 128.0;
     }
 

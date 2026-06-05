@@ -80,6 +80,8 @@ static constexpr qint32 MaxSkins = 32;
 
 static constexpr qint32 LMBLOCK_WIDTH = 1024;
 static constexpr qint32 LMBLOCK_HEIGHT = 1024;
+static constexpr qint32 MAX_LIGHTMAPS = 4;
+static constexpr qint32 LIT_LMBLOCK_WIDTH = LMBLOCK_WIDTH * MAX_LIGHTMAPS;
 
 ModFile::ModFile(const PaletteFile *paletteFile)
     : m_paletteFile{paletteFile}
@@ -91,6 +93,7 @@ QString ModFile::import(QByteArray data, const QString &outputFile, QStringList 
     QFileInfo fileInfo(outputFile);
 
     m_name = fileInfo.baseName();
+    m_outputFilePath = outputFile;
 
     QDataStream stream(&data, QIODevice::ReadOnly);
     stream.setByteOrder(QDataStream::LittleEndian);
@@ -352,7 +355,7 @@ QString ModFile::saveLightmaps(const QString &outputFile, QStringList *generated
             return u"Failed to create directory: %1"_s.arg(outputDirectory.absolutePath());
     }
 
-    const auto image = QImage(reinterpret_cast<const quint8 *>(m_lightmaps.data()), LMBLOCK_WIDTH, LMBLOCK_HEIGHT, QImage::Format_RGBA8888);
+    const auto image = QImage(reinterpret_cast<const quint8 *>(m_lightmaps.data()), LIT_LMBLOCK_WIDTH, LMBLOCK_HEIGHT, QImage::Format_RGBA8888);
     const auto &outputFilePath = outputDirectory.absolutePath() + u"/lightmap.png"_s;
     if (!image.save(outputFilePath, "png"))
         return u"File open error %1.png"_s.arg(outputFilePath);
@@ -715,6 +718,7 @@ void ModFile::loadBrushModel(QDataStream &stream)
     loadSurfaceEdges(stream, lumps[SurfaceEdges]);
     loadTextures(stream, lumps[Textures]);
     loadLighting(stream, lumps[Lighting]);
+    loadLitLighting(m_outputFilePath, m_lightData.size());
     loadPlanes(stream, lumps[Planes]);
     loadTexInfo(stream, lumps[TexInfos]);
     loadFaces(stream, lumps[Faces]);
@@ -972,12 +976,17 @@ void ModFile::loadFaces(QDataStream &stream, const Lump &lump)
 
         Q_ASSERT(!m_lightData.isEmpty());
 
-        if (in.lightofs == -1)
+        if (in.lightofs == -1) {
             out.samples = nullptr;
-        else
+            out.litSamples = nullptr;
+        } else {
             out.samples = reinterpret_cast<quint8 *>(m_lightData.data()) + in.lightofs;
+            out.litSamples = m_litLightData.isEmpty() ? nullptr : reinterpret_cast<quint8 *>(m_litLightData.data()) + in.lightofs * 3;
+        }
 
-        if (out.texinfo->texture->name.startsWith(u"sky") || out.texinfo->texture->name.startsWith(u"*"))
+        if (out.texinfo->texture->name.startsWith(u"sky"))
+            out.flags |= DrawFlag::Sky | DrawFlag::Tiled;
+        else if (out.texinfo->texture->name.startsWith(u"*"))
             out.flags |= DrawFlag::Tiled;
     }
 }
@@ -990,6 +999,49 @@ void ModFile::loadLighting(QDataStream &stream, const Lump &lump)
 
     m_lightData.resize(lump.size);
     stream.readRawData(m_lightData.data(), lump.size);
+}
+
+void ModFile::loadLitLighting(const QString &outputFile, qsizetype lightDataSize)
+{
+    if (!lightDataSize)
+        return;
+
+    const QFileInfo bspFileInfo(outputFile);
+    const auto litFilePath = bspFileInfo.absoluteDir().absolutePath() + "/" + bspFileInfo.completeBaseName() + u".lit"_s;
+    QFile litFile(litFilePath);
+    if (!litFile.exists())
+        return;
+
+    if (!litFile.open(QIODevice::ReadOnly)) {
+        qWarning("ModFile::loadLitLighting: failed to open %s", qPrintable(litFilePath));
+        return;
+    }
+
+    const auto data = litFile.readAll();
+    const qsizetype expectedSize = 8 + lightDataSize * 3;
+    if (data.size() != expectedSize) {
+        qWarning("ModFile::loadLitLighting: outdated .lit file %s, expected %lld bytes, got %lld",
+                 qPrintable(litFilePath), static_cast<long long>(expectedSize), static_cast<long long>(data.size()));
+        return;
+    }
+
+    if (data.size() < 8 || data[0] != 'Q' || data[1] != 'L' || data[2] != 'I' || data[3] != 'T') {
+        qWarning("ModFile::loadLitLighting: corrupt .lit file %s", qPrintable(litFilePath));
+        return;
+    }
+
+    QDataStream stream(data);
+    stream.setByteOrder(QDataStream::LittleEndian);
+    stream.skipRawData(4);
+
+    qint32 version = 0;
+    stream >> version;
+    if (version != 1) {
+        qWarning("ModFile::loadLitLighting: unsupported .lit version %d in %s", version, qPrintable(litFilePath));
+        return;
+    }
+
+    m_litLightData = data.mid(8);
 }
 
 void ModFile::loadSubModels(QDataStream &stream, const Lump &lump)
@@ -1208,11 +1260,41 @@ void ModFile::skyLoadTexture(const Texture &texture)
 
 void ModFile::buildLightmaps()
 {
-    m_lightmaps.resize(LMBLOCK_WIDTH * LMBLOCK_HEIGHT * sizeof(qint32));
+    m_lightmaps.resize(LIT_LMBLOCK_WIDTH * LMBLOCK_HEIGHT * sizeof(qint32));
     m_lightmaps.fill(0);
 
     m_allocated.resize(LMBLOCK_WIDTH);
     m_allocated.fill(0);
+
+    const auto createSurfaceLightmaps = [this](Surface &surface) {
+        createSurfaceLightmap(surface);
+    };
+
+    // Pass 1: solid surfaces first — keeps lightmap atlas layout stable.
+    for (int i = 0; i < m_subModels.size(); ++i) {
+        const auto &subModel = m_subModels[i];
+        for (int f = subModel.firstface; f < subModel.firstface + subModel.numfaces; ++f) {
+            auto &surface = m_surfaces[f];
+            if (surface.numedges <= 2)
+                continue;
+            if (surface.flags & (DrawFlag::Sky | DrawFlag::Tiled))
+                continue;
+            createSurfaceLightmaps(surface);
+        }
+    }
+
+    // Pass 2: turbulent surfaces (*slime, *water, …) appended after solids.
+    for (int i = 0; i < m_subModels.size(); ++i) {
+        const auto &subModel = m_subModels[i];
+        for (int f = subModel.firstface; f < subModel.firstface + subModel.numfaces; ++f) {
+            auto &surface = m_surfaces[f];
+            if (surface.numedges <= 2)
+                continue;
+            if (!(surface.flags & DrawFlag::Tiled) || (surface.flags & DrawFlag::Sky))
+                continue;
+            createSurfaceLightmaps(surface);
+        }
+    }
 
     for (int i = 0; i < m_subModels.size(); ++i) {
         auto &subModel = m_subModels[i];
@@ -1225,9 +1307,6 @@ void ModFile::buildLightmaps()
             auto &subset = subsets[surface.texinfo->texture];
             subset.texInfo = surface.texinfo;
             subset.flags = surface.flags;
-
-            if (!(surface.flags & DrawFlag::Tiled))
-                createSurfaceLightmap(surface);
 
             buildSurfaceDisplayList(surface, subset);
         }
@@ -1279,34 +1358,49 @@ void ModFile::allocBlock(int w, int h, int *x, int *y)
         m_allocated[*x + i] = best + h;
 }
 
-void ModFile::buildLightMap(const Surface &surface, quint8 *data, int offset, int stride)
+void ModFile::buildMonoLightMap(const Surface &surface, quint8 *data, int stride)
 {
     const qint32 smax = (surface.extents[0] >> 4) + 1;
     const qint32 tmax = (surface.extents[1] >> 4) + 1;
 
     const auto *lightmap = surface.samples;
+    if (!lightmap)
+        return;
 
-    static constexpr qint32 MAX_LIGHTMAPS = 4;
-
-    if (lightmap) {
-        int maps = 0;
-        for (; maps < MAX_LIGHTMAPS && surface.styles[maps] != 255; ++maps) {
-            auto *dest = data + offset + maps;
-            for (int i = 0; i < tmax; ++i) {
-                for (int j = 0; j < smax; ++j)
-                    dest[j * sizeof(qint32)] = lightmap[j];
-                lightmap += smax;
-                dest += stride;
+    for (int maps = 0; maps < MAX_LIGHTMAPS && surface.styles[maps] != 255; ++maps) {
+        for (int i = 0; i < tmax; ++i) {
+            auto *dest = data + ((surface.light_t + i) * stride + maps * LMBLOCK_WIDTH + surface.light_s) * sizeof(qint32);
+            for (int j = 0; j < smax; ++j) {
+                const quint8 value = lightmap[j];
+                dest[j * sizeof(qint32) + 0] = value;
+                dest[j * sizeof(qint32) + 1] = value;
+                dest[j * sizeof(qint32) + 2] = value;
+                dest[j * sizeof(qint32) + 3] = 255;
             }
+            lightmap += smax;
         }
+    }
+}
 
-        for (; maps < MAX_LIGHTMAPS; ++maps) {
-            auto *dest = data + offset + maps;
-            for (int i = 0; i < tmax; ++i) {
-                for (int j = 0; j < smax; ++j)
-                    dest[j * sizeof(qint32)] = 0;
-                dest += stride;
+void ModFile::buildLitLightMap(const Surface &surface, quint8 *data, int stride)
+{
+    const qint32 smax = (surface.extents[0] >> 4) + 1;
+    const qint32 tmax = (surface.extents[1] >> 4) + 1;
+
+    const auto *lightmap = surface.litSamples;
+    if (!lightmap)
+        return;
+
+    for (int maps = 0; maps < MAX_LIGHTMAPS && surface.styles[maps] != 255; ++maps) {
+        for (int i = 0; i < tmax; ++i) {
+            auto *dest = data + ((surface.light_t + i) * stride + maps * LMBLOCK_WIDTH + surface.light_s) * sizeof(qint32);
+            for (int j = 0; j < smax; ++j) {
+                dest[j * sizeof(qint32) + 0] = lightmap[j * 3 + 0];
+                dest[j * sizeof(qint32) + 1] = lightmap[j * 3 + 1];
+                dest[j * sizeof(qint32) + 2] = lightmap[j * 3 + 2];
+                dest[j * sizeof(qint32) + 3] = 255;
             }
+            lightmap += smax * 3;
         }
     }
 }
@@ -1318,8 +1412,10 @@ void ModFile::createSurfaceLightmap(Surface &surface)
 
     allocBlock(smax, tmax, &surface.light_s, &surface.light_t);
     auto *base = reinterpret_cast<quint8 *>(m_lightmaps.data());
-    auto offset = (surface.light_t * LMBLOCK_WIDTH + surface.light_s) * sizeof(qint32);
-    buildLightMap(surface, base, offset, LMBLOCK_WIDTH * sizeof(qint32));
+    if (!m_litLightData.isEmpty())
+        buildLitLightMap(surface, base, LIT_LMBLOCK_WIDTH);
+    else
+        buildMonoLightMap(surface, base, LIT_LMBLOCK_WIDTH);
 }
 
 void ModFile::buildSurfaceDisplayList(const Surface &surface, Subset &subset)
@@ -1348,11 +1444,8 @@ void ModFile::buildSurfaceDisplayList(const Surface &surface, Subset &subset)
         else
             position = m_vertexes[m_edges[-index].v[1]];
 
-        auto u = QVector3D::dotProduct(position, QVector3D(texInfo->vecs[0][0], texInfo->vecs[0][1], texInfo->vecs[0][2]));
-        u += s0;
-
-        auto v = QVector3D::dotProduct(position, QVector3D(texInfo->vecs[1][0], texInfo->vecs[1][1], texInfo->vecs[1][2]));
-        v += t0;
+        auto s = QVector3D::dotProduct(position, QVector3D(texInfo->vecs[0][0], texInfo->vecs[0][1], texInfo->vecs[0][2]));
+        auto t = QVector3D::dotProduct(position, QVector3D(texInfo->vecs[1][0], texInfo->vecs[1][1], texInfo->vecs[1][2]));
 
         if (j >= 3) {
             vertexes.push_back(vertexes[0]);
@@ -1360,11 +1453,11 @@ void ModFile::buildSurfaceDisplayList(const Surface &surface, Subset &subset)
         }
 
         QVector2D texCoords[2];
-        texCoords[1].setX(u / sdiv);
-        texCoords[1].setY(v / tdiv);
-        if (!(surface.flags & DrawFlag::Tiled)) {
-            texCoords[0].setX((u - surface.texturemins[0] + surface.light_s * 16 + 8) / (LMBLOCK_WIDTH * 16));
-            texCoords[0].setY((v - surface.texturemins[1] + surface.light_t * 16 + 8) / (LMBLOCK_HEIGHT * 16));
+        texCoords[1].setX((s + s0) / sdiv);
+        texCoords[1].setY((t + t0) / tdiv);
+        if (!(surface.flags & DrawFlag::Sky)) {
+            texCoords[0].setX((s + texInfo->vecs[0][3] - surface.texturemins[0] + surface.light_s * 16 + 8) / (LMBLOCK_WIDTH * 16));
+            texCoords[0].setY((t + texInfo->vecs[1][3] - surface.texturemins[1] + surface.light_t * 16 + 8) / (LMBLOCK_HEIGHT * 16));
         } else {
             texCoords[0] = texCoords[1];
         }

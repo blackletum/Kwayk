@@ -1800,7 +1800,7 @@ World {
     }
 
     Ogre {
-        position: Qt.vector3d(22.32, -22.08, 14.0)
+        position: Qt.vector3d(22.32, -22.08, 14)
         eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
@@ -1874,7 +1874,7 @@ World {
     }
 
     Knight {
-        position: Qt.vector3d(8.0, -15.76, 15.2)
+        position: Qt.vector3d(8, -15.76, 15.2)
         eulerRotation: Qt.vector3d(0, 105, 0)
         spawnflags: 1
     }
@@ -1959,45 +1959,45 @@ World {
     }
 
     Ogre {
-        position: Qt.vector3d(-6.24, -15.04, -8.0)
+        position: Qt.vector3d(-6.24, -15.04, -8)
         eulerRotation: Qt.vector3d(0, -90, 0)
-        target: "wave1_counter"
         targetname: "wave1"
+        target: "wave1_counter"
     }
 
     Ogre {
-        position: Qt.vector3d(-3.84, -15.04, -8.0)
+        position: Qt.vector3d(-3.84, -15.04, -8)
         eulerRotation: Qt.vector3d(0, -90, 0)
-        target: "wave1_counter"
         targetname: "wave1"
+        target: "wave1_counter"
     }
 
     Ogre {
-        position: Qt.vector3d(-4.64, -15.04, -8.0)
+        position: Qt.vector3d(-4.64, -15.04, -8)
         eulerRotation: Qt.vector3d(0, -90, 0)
-        target: "wave1_counter"
         targetname: "wave1"
+        target: "wave1_counter"
     }
 
     Ogre {
-        position: Qt.vector3d(-5.44, -15.04, -8.0)
+        position: Qt.vector3d(-5.44, -15.04, -8)
         eulerRotation: Qt.vector3d(0, -90, 0)
-        target: "wave1_counter"
         targetname: "wave1"
+        target: "wave1_counter"
     }
 
     Shalrath {
         position: Qt.vector3d(18.72, -14.48, -7.52)
         eulerRotation: Qt.vector3d(0, 90, 0)
-        target: "wave2_counter"
         targetname: "wave2"
+        target: "wave2_counter"
     }
 
     Shalrath {
         position: Qt.vector3d(0.48, -14.48, -7.68)
         eulerRotation: Qt.vector3d(0, -90, 0)
-        target: "wave2_counter"
         targetname: "wave2"
+        target: "wave2_counter"
     }
 
     Tarbaby {
@@ -2009,20 +2009,22 @@ World {
     Demon {
         position: Qt.vector3d(-6.08, -15.04, -9.28)
         eulerRotation: Qt.vector3d(0, -90, 0)
-        target: "wave2_counter"
         targetname: "wave2"
+        target: "wave2_counter"
     }
 
     Shambler {
         position: Qt.vector3d(-6.08, -15.04, -10.56)
-        target: "wave3_counter"
+        eulerRotation: Qt.vector3d(0, -90, 0)
         targetname: "wave3"
+        target: "wave3_counter"
     }
 
     Shambler {
         position: Qt.vector3d(-4.8, -15.04, -10.56)
-        target: "wave3_counter"
+        eulerRotation: Qt.vector3d(0, -90, 0)
         targetname: "wave3"
+        target: "wave3_counter"
     }
 
     Knight {
@@ -2071,7 +2073,7 @@ World {
     }
 
     Knight {
-        position: Qt.vector3d(20.0, -15.76, 12.8)
+        position: Qt.vector3d(20, -15.76, 12.8)
         eulerRotation: Qt.vector3d(0, -15, 0)
         spawnflags: 1
     }
@@ -2164,10 +2166,10 @@ World {
     }
 
     Zombie {
-        position: Qt.vector3d(9.6, -13.36, 0.0)
+        position: Qt.vector3d(9.6, -13.36, 0)
         eulerRotation: Qt.vector3d(0, 0, 0)
-        targetname: "secret2_kill"
         spawnflags: 1
+        targetname: "secret2_kill"
     }
 
     Zombie {
@@ -2190,24 +2192,28 @@ World {
 
     Wizard {
         position: Qt.vector3d(-6.08, -15.04, -4.8)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Wizard {
         position: Qt.vector3d(-6.08, -15.04, -5.44)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Wizard {
         position: Qt.vector3d(-6.08, -15.04, -6.08)
+        eulerRotation: Qt.vector3d(0, -90, 0)
     }
 
     Demon {
         position: Qt.vector3d(-4.8, -15.04, -9.28)
-        target: "wave2_counter"
+        eulerRotation: Qt.vector3d(0, -90, 0)
         targetname: "wave2"
+        target: "wave2_counter"
     }
 
     Knight {
-        position: Qt.vector3d(36.0, -14.48, 18.56)
+        position: Qt.vector3d(36, -14.48, 18.56)
         eulerRotation: Qt.vector3d(0, 0, 0)
         spawnflags: 257
     }

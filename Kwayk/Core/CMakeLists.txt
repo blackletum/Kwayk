@@ -33,6 +33,7 @@ qt6_add_qml_module(kwayk_core
         shaders/teleport.frag
         shaders/transition.frag
         shaders/turbulent.frag
+        shaders/turbulent.vert
         shaders/warp.frag
     RESOURCE_PREFIX "/"
 )

@@ -158,7 +158,7 @@ World {
 
     TeleportDestination {
         targetname: "tele_target_nightmare"
-        position: Qt.vector3d(0, 21.6, 0.32)
+        position: Qt.vector3d(0, 0.32, -21.6)
         eulerRotation: Qt.vector3d(0, 0, 0)
     }
 
@@ -384,6 +384,24 @@ World {
 
     AmbientCompHum {
         position: Qt.vector3d(-8.24, 0.72, -9.84)
+    }
+
+    ViewThing {
+        position: Qt.vector3d(5.6, 0.24, -9.52)
+        eulerRotation: Qt.vector3d(0, 90, 0)
+        frame: 69
+    }
+
+    ViewThing {
+        position: Qt.vector3d(11.0, -0.68, -15.8)
+        eulerRotation: Qt.vector3d(0, -45, 0)
+        frame: 49
+    }
+
+    ViewThing {
+        position: Qt.vector3d(3.84, -2.3, -18.04)
+        eulerRotation: Qt.vector3d(0, 135, 0)
+        frame: 60
     }
 
     // monsters
