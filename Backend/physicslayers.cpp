@@ -6,7 +6,7 @@ bool ObjectLayerPairFilter::shouldCollide(quint16 obj1, quint16 obj2) const
 {
     switch (obj1) {
     case ObjectLayers::Solid:
-        return obj2 == ObjectLayers::Walker;
+        return obj2 == ObjectLayers::Walker || obj2 == ObjectLayers::Item || obj2 == ObjectLayers::Toss;
     case ObjectLayers::NonSolid:
         return false;
     case ObjectLayers::Walker:
@@ -58,7 +58,7 @@ bool ObjectVsBroadPhaseLayerFilter::shouldCollide(quint16 layer1, quint8 layer2)
 {
     switch (layer1) {
     case ObjectLayers::Solid:
-        return layer2 == BroadPhaseLayers::BP_Moving;
+        return layer2 == BroadPhaseLayers::BP_Moving || layer2 == BroadPhaseLayers::BP_NonMoving;
     case ObjectLayers::NonSolid:
         return false;
     case ObjectLayers::Walker:
