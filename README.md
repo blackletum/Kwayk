@@ -3,7 +3,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Qt-6.9-41CD52?logo=qt" alt="Qt 6.9">
   <img src="https://img.shields.io/badge/Platform-Desktop%20%7C%20WebAssembly-blue" alt="Platform">
-  <img src="https://img.shields.io/badge/License-GPL--2.0-green" alt="License">
+  <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
 </p>
 
 **Kwayk** is a modern reimplementation of the classic Quake (1996) game engine using **Qt Quick 3D** and **QML**. It runs natively on desktop platforms and in web browsers via **WebAssembly**.
