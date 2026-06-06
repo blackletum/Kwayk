@@ -404,15 +404,13 @@ World {
         frame: 60
     }
 
-    // monsters
-
-    Zombie {
+    Crucified {
         position: Qt.vector3d(0.99, -2.04, -15.69)
         eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1
     }
 
-    Zombie {
+    Crucified {
         position: Qt.vector3d(0.99, -2.04, -18.25)
         eulerRotation: Qt.vector3d(0, -90, 0)
         spawnflags: 1

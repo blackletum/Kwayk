@@ -187,6 +187,9 @@ Entity {
     }
 
     function updatePosition() {
+        const oldX = position.x;
+        const oldZ = position.z;
+
         body.setLinearVelocity(velocity);
         body.extendedUpdate(frameTime, physicsSystem.gravity, updateSettings, objectLayer, [body]);
         position = body.position.minus(root.center);
@@ -198,6 +201,15 @@ Entity {
             if (body.getGroundState() === CharacterVirtual.OnGround
                     && !body.isSlopeTooSteep(body.getGroundNormal())) {
                 velocity.y = groundVelocity.y;
+            }
+
+            if (frameTime > 0) {
+                velocity.x = (position.x - oldX) / frameTime;
+                velocity.z = (position.z - oldZ) / frameTime;
+                if (velocity.x > -0.01 && velocity.x < 0.01)
+                    velocity.x = 0;
+                if (velocity.z > -0.01 && velocity.z < 0.01)
+                    velocity.z = 0;
             }
         }
     }
