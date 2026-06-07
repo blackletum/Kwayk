@@ -88,6 +88,11 @@ ModFile::ModFile(const PaletteFile *paletteFile)
 {
 }
 
+void ModFile::setLitPath(const QString &litPath)
+{
+    m_litPath = litPath;
+}
+
 QString ModFile::import(QByteArray data, const QString &outputFile, QStringList *generatedFiles)
 {
     QFileInfo fileInfo(outputFile);
@@ -717,8 +722,7 @@ void ModFile::loadBrushModel(QDataStream &stream)
     loadEdges(stream, lumps[Edges]);
     loadSurfaceEdges(stream, lumps[SurfaceEdges]);
     loadTextures(stream, lumps[Textures]);
-    loadLighting(stream, lumps[Lighting]);
-    loadLitLighting(m_outputFilePath, m_lightData.size());
+    loadLighting(stream, lumps[Lighting], m_outputFilePath);
     loadPlanes(stream, lumps[Planes]);
     loadTexInfo(stream, lumps[TexInfos]);
     loadFaces(stream, lumps[Faces]);
@@ -976,13 +980,10 @@ void ModFile::loadFaces(QDataStream &stream, const Lump &lump)
 
         Q_ASSERT(!m_lightData.isEmpty());
 
-        if (in.lightofs == -1) {
+        if (in.lightofs == -1)
             out.samples = nullptr;
-            out.litSamples = nullptr;
-        } else {
-            out.samples = reinterpret_cast<quint8 *>(m_lightData.data()) + in.lightofs;
-            out.litSamples = m_litLightData.isEmpty() ? nullptr : reinterpret_cast<quint8 *>(m_litLightData.data()) + in.lightofs * 3;
-        }
+        else
+            out.samples = reinterpret_cast<quint8 *>(m_lightData.data()) + in.lightofs * 3;
 
         if (out.texinfo->texture->name.startsWith(u"sky"))
             out.flags |= DrawFlag::Sky | DrawFlag::Tiled;
@@ -991,57 +992,52 @@ void ModFile::loadFaces(QDataStream &stream, const Lump &lump)
     }
 }
 
-void ModFile::loadLighting(QDataStream &stream, const Lump &lump)
+void ModFile::loadLighting(QDataStream &stream, const Lump &lump, const QString &outputFile)
 {
     stream.device()->seek(lump.offset);
     if (!lump.size)
         return;
 
-    m_lightData.resize(lump.size);
-    stream.readRawData(m_lightData.data(), lump.size);
-}
-
-void ModFile::loadLitLighting(const QString &outputFile, qsizetype lightDataSize)
-{
-    if (!lightDataSize)
-        return;
+    QByteArray mono(lump.size, Qt::Uninitialized);
+    stream.readRawData(mono.data(), lump.size);
 
     const QFileInfo bspFileInfo(outputFile);
-    const auto litFilePath = bspFileInfo.absoluteDir().absolutePath() + "/" + bspFileInfo.completeBaseName() + u".lit"_s;
+    const auto litFilePath = m_litPath.isEmpty()
+        ? bspFileInfo.absoluteDir().absoluteFilePath(bspFileInfo.completeBaseName() + u".lit"_s)
+        : QDir(m_litPath).absoluteFilePath(bspFileInfo.completeBaseName() + u".lit"_s);
     QFile litFile(litFilePath);
-    if (!litFile.exists())
-        return;
+    if (litFile.open(QIODevice::ReadOnly)) {
+        const auto data = litFile.readAll();
+        const qsizetype expectedSize = 8 + lump.size * 3;
+        if (data.size() == expectedSize
+            && data.size() >= 8
+            && data[0] == 'Q' && data[1] == 'L' && data[2] == 'I' && data[3] == 'T') {
+            QDataStream litStream(data);
+            litStream.setByteOrder(QDataStream::LittleEndian);
+            litStream.skipRawData(4);
 
-    if (!litFile.open(QIODevice::ReadOnly)) {
-        qWarning("ModFile::loadLitLighting: failed to open %s", qPrintable(litFilePath));
-        return;
+            qint32 version = 0;
+            litStream >> version;
+            if (version == 1) {
+                m_lightData = data.mid(8);
+                return;
+            }
+            qWarning("ModFile::loadLighting: unsupported .lit version %d in %s", version, qPrintable(litFilePath));
+        } else if (data.size() != expectedSize) {
+            qWarning("ModFile::loadLighting: outdated .lit file %s, expected %lld bytes, got %lld",
+                     qPrintable(litFilePath), static_cast<long long>(expectedSize), static_cast<long long>(data.size()));
+        } else {
+            qWarning("ModFile::loadLighting: corrupt .lit file %s", qPrintable(litFilePath));
+        }
     }
 
-    const auto data = litFile.readAll();
-    const qsizetype expectedSize = 8 + lightDataSize * 3;
-    if (data.size() != expectedSize) {
-        qWarning("ModFile::loadLitLighting: outdated .lit file %s, expected %lld bytes, got %lld",
-                 qPrintable(litFilePath), static_cast<long long>(expectedSize), static_cast<long long>(data.size()));
-        return;
+    m_lightData.resize(lump.size * 3);
+    for (qsizetype i = 0; i < lump.size; ++i) {
+        const quint8 value = mono[i];
+        m_lightData[i * 3 + 0] = value;
+        m_lightData[i * 3 + 1] = value;
+        m_lightData[i * 3 + 2] = value;
     }
-
-    if (data.size() < 8 || data[0] != 'Q' || data[1] != 'L' || data[2] != 'I' || data[3] != 'T') {
-        qWarning("ModFile::loadLitLighting: corrupt .lit file %s", qPrintable(litFilePath));
-        return;
-    }
-
-    QDataStream stream(data);
-    stream.setByteOrder(QDataStream::LittleEndian);
-    stream.skipRawData(4);
-
-    qint32 version = 0;
-    stream >> version;
-    if (version != 1) {
-        qWarning("ModFile::loadLitLighting: unsupported .lit version %d in %s", version, qPrintable(litFilePath));
-        return;
-    }
-
-    m_litLightData = data.mid(8);
 }
 
 void ModFile::loadSubModels(QDataStream &stream, const Lump &lump)
@@ -1358,36 +1354,12 @@ void ModFile::allocBlock(int w, int h, int *x, int *y)
         m_allocated[*x + i] = best + h;
 }
 
-void ModFile::buildMonoLightMap(const Surface &surface, quint8 *data, int stride)
+void ModFile::buildLightMap(const Surface &surface, quint8 *data, int stride)
 {
     const qint32 smax = (surface.extents[0] >> 4) + 1;
     const qint32 tmax = (surface.extents[1] >> 4) + 1;
 
     const auto *lightmap = surface.samples;
-    if (!lightmap)
-        return;
-
-    for (int maps = 0; maps < MAX_LIGHTMAPS && surface.styles[maps] != 255; ++maps) {
-        for (int i = 0; i < tmax; ++i) {
-            auto *dest = data + ((surface.light_t + i) * stride + maps * LMBLOCK_WIDTH + surface.light_s) * sizeof(qint32);
-            for (int j = 0; j < smax; ++j) {
-                const quint8 value = lightmap[j];
-                dest[j * sizeof(qint32) + 0] = value;
-                dest[j * sizeof(qint32) + 1] = value;
-                dest[j * sizeof(qint32) + 2] = value;
-                dest[j * sizeof(qint32) + 3] = 255;
-            }
-            lightmap += smax;
-        }
-    }
-}
-
-void ModFile::buildLitLightMap(const Surface &surface, quint8 *data, int stride)
-{
-    const qint32 smax = (surface.extents[0] >> 4) + 1;
-    const qint32 tmax = (surface.extents[1] >> 4) + 1;
-
-    const auto *lightmap = surface.litSamples;
     if (!lightmap)
         return;
 
@@ -1412,10 +1384,7 @@ void ModFile::createSurfaceLightmap(Surface &surface)
 
     allocBlock(smax, tmax, &surface.light_s, &surface.light_t);
     auto *base = reinterpret_cast<quint8 *>(m_lightmaps.data());
-    if (!m_litLightData.isEmpty())
-        buildLitLightMap(surface, base, LIT_LMBLOCK_WIDTH);
-    else
-        buildMonoLightMap(surface, base, LIT_LMBLOCK_WIDTH);
+    buildLightMap(surface, base, LIT_LMBLOCK_WIDTH);
 }
 
 void ModFile::buildSurfaceDisplayList(const Surface &surface, Subset &subset)

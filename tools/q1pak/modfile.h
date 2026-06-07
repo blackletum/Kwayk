@@ -126,7 +126,6 @@ public:
         qint16 extents[2];
         quint8 styles[4];
         quint8 *samples;
-        quint8 *litSamples;
         qint32 light_s;
         qint32 light_t;
         const TexInfo *texinfo;
@@ -221,6 +220,7 @@ public:
 
     explicit ModFile(const PaletteFile *paletteFile);
 
+    void setLitPath(const QString &litPath);
     QString import(QByteArray data, const QString &outputFile, QStringList *generatedFiles = nullptr);
 
 private:
@@ -255,19 +255,16 @@ private:
     void loadPlanes(QDataStream &stream, const Lump &lump);
     void loadTexInfo(QDataStream &stream, const Lump &lump);
     void loadFaces(QDataStream &stream, const Lump &lump);
-    void loadLighting(QDataStream &stream, const Lump &lump);
+    void loadLighting(QDataStream &stream, const Lump &lump, const QString &outputFile);
     void loadSubModels(QDataStream &stream, const Lump &lump);
     void loadEntities(QDataStream &stream, const Lump &lump);
     void loadLeafs(QDataStream &stream, const Lump &lump);
     void loadNodes(QDataStream &stream, const Lump &lump);
     void loadClipNodes(QDataStream &stream, const Lump &lump);
-    void loadLitLighting(const QString &outputFile, qsizetype lightDataSize);
-
     void skyLoadTexture(const Texture &texture);
     void buildLightmaps();
     void allocBlock(int w, int h, int *x, int *y);
-    void buildMonoLightMap(const Surface &surface, quint8 *data, int stride);
-    void buildLitLightMap(const Surface &surface, quint8 *data, int stride);
+    void buildLightMap(const Surface &surface, quint8 *data, int stride);
     
     void createSurfaceLightmap(Surface &surface);
     void buildSurfaceDisplayList(const Surface &surface, Subset &subset);
@@ -293,7 +290,6 @@ private:
     QVector<Plane> m_planes;
     QVector<TexInfo> m_texInfos;
     QByteArray m_lightData;
-    QByteArray m_litLightData;
     QVector<SubModel> m_subModels;
     QVector<Leaf> m_leafs;
     QVector<Node> m_nodes;
@@ -301,6 +297,7 @@ private:
     Hull m_hull0;
     QString m_entitiesString;
     QString m_outputFilePath;
+    QString m_litPath;
     QByteArray m_lightmaps;
     QVector<qint32> m_allocated;
 };
